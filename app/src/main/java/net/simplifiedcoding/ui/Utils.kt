@@ -7,28 +7,29 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import net.simplifiedcoding.data.network.Resource
 import net.simplifiedcoding.ui.auth.LoginFragment
+import net.simplifiedcoding.ui.base.BaseFragment
 
-fun<A : Activity> Activity.startNewActivity(activity: Class<A>){
+fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
     Intent(this, activity).also {
         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(it)
     }
 }
 
-fun View.visible(isVisible: Boolean){
-    visibility = if(isVisible) View.VISIBLE else View.GONE
+fun View.visible(isVisible: Boolean) {
+    visibility = if (isVisible) View.VISIBLE else View.GONE
 }
 
-fun View.enable(enabled: Boolean){
+fun View.enable(enabled: Boolean) {
     isEnabled = enabled
-    alpha = if(enabled) 1f else 0.5f
+    alpha = if (enabled) 1f else 0.5f
 }
 
-fun View.snackbar(message: String, action: (() -> Unit)? = null){
+fun View.snackbar(message: String, action: (() -> Unit)? = null) {
     val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
     // if action not null
     action?.let {
-        snackbar.setAction("Retry"){
+        snackbar.setAction("Retry") {
             it()
         }
     }
@@ -38,15 +39,18 @@ fun View.snackbar(message: String, action: (() -> Unit)? = null){
 fun Fragment.handleApiError(
     failure: Resource.Failure,
     retry: (() -> Unit)? = null
-){
-    when{
-        failure.isNetworkError -> requireView().snackbar("Please check your internet connection", retry)
+) {
+    when {
+        failure.isNetworkError -> requireView().snackbar(
+            "Please check your internet connection",
+            retry
+        )
         // username or password is wrong // or token expired
         failure.errorCode == 400 -> {
-            if (this is LoginFragment){
+            if (this is LoginFragment) {
                 requireView().snackbar("You've entered incorrect email or password")
-            }else {
-                //@todo perform logout operation here
+            } else {
+                (this as BaseFragment<*, *, *>).logout()
             }
         }
         // for any other error
