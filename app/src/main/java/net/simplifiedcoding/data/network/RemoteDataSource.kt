@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteDataSource {
     companion object {
-        private const val BASE_URL = "http://simplifiedcoding.tech/mywebapp/public/api/"
+        private const val BASE_URL = "http://8.215.78.217:8000/"
     }
 
     fun <Api> buildApi(
@@ -21,7 +21,7 @@ class RemoteDataSource {
                 OkHttpClient.Builder()
                     .addInterceptor { chain ->
                         chain.proceed(chain.request().newBuilder().also {
-                            it.addHeader("Authorization", "Bearer $authToken")
+                            it.addHeader("Cookie", "access_token=$authToken")
                         }.build())
                     }.also { client ->
                         if (BuildConfig.DEBUG) {

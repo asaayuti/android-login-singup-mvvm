@@ -10,8 +10,7 @@ import kotlinx.coroutines.runBlocking
 import net.simplifiedcoding.data.network.Resource
 import net.simplifiedcoding.data.network.UserApi
 import net.simplifiedcoding.data.repository.UserRepository
-import net.simplifiedcoding.data.responses.LoginResponse
-import net.simplifiedcoding.data.responses.User
+import net.simplifiedcoding.data.responses.UserResponse
 import net.simplifiedcoding.databinding.FragmentHomeBinding
 import net.simplifiedcoding.ui.base.BaseFragment
 import net.simplifiedcoding.ui.visible
@@ -31,7 +30,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, UserReposi
             when (it) {
                 is Resource.Success -> {
                     binding.progressbar.visible(false)
-                    updateUI(it.value.user)
+                    updateUI(it.value)
                 }
                 is Resource.Loading -> {
                     binding.progressbar.visible(true)
@@ -40,10 +39,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, UserReposi
         })
     }
 
-    private fun updateUI(user: User) {
+    private fun updateUI(user: UserResponse) {
         with(binding) {
-            textViewId.text = user.id.toString()
-            textViewName.text = user.name
+            textViewId.text = user.tinggi_badan.toString()
+            textViewName.text = user.nama
             textViewEmail.text = user.email
         }
     }

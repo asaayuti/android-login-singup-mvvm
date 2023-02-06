@@ -7,14 +7,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.simplifiedcoding.data.network.Resource
 import net.simplifiedcoding.data.repository.UserRepository
-import net.simplifiedcoding.data.responses.LoginResponse
+import net.simplifiedcoding.data.responses.UserResponse
 
 class HomeViewModel(
     private val repository: UserRepository
 ) : ViewModel() {
 
-    private val _user: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
-    val user: LiveData<Resource<LoginResponse>>
+    private val _user: MutableLiveData<Resource<UserResponse>> = MutableLiveData()
+    val user: LiveData<Resource<UserResponse>>
         get() = _user
 
     fun getUser() = viewModelScope.launch {

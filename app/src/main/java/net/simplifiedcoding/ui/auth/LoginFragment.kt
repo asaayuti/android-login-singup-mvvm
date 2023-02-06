@@ -6,12 +6,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import net.simplifiedcoding.databinding.FragmentLoginBinding
 import net.simplifiedcoding.data.network.AuthApi
 import net.simplifiedcoding.data.network.Resource
 import net.simplifiedcoding.data.repository.AuthRepository
+import net.simplifiedcoding.databinding.FragmentLoginBinding
 import net.simplifiedcoding.ui.base.BaseFragment
 import net.simplifiedcoding.ui.enable
 import net.simplifiedcoding.ui.home.HomeActivity
@@ -30,7 +28,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
             binding.progressbar.visible(false)
             when (it) {
                 is Resource.Success -> {
-                    viewModel.saveAuthToken(it.value.user.access_token!!)
+                    viewModel.saveAuthToken(it.value.access_token!!)
                     requireActivity().startNewActivity(HomeActivity::class.java)
                 }
                 is Resource.Failure -> {
